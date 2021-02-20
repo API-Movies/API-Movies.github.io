@@ -1,6 +1,6 @@
 # API Movies
 
-<center><a href="https://API-Movies.github.io"><img src="https://API-Movies.github.io/banner.png?cache"></a></center>
+<a href="https://API-Movies.github.io"><img src="https://API-Movies.github.io/banner.png?cache"></a>
 
 #### https://API-Movies.github.io
 #### https://API-Movies.netlify.app

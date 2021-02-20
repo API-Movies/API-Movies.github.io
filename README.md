@@ -1,6 +1,6 @@
 # API Movies
 
-<center><img src="https://API-Movies.github.io/banner.png"></center>
+<center><img src="https://API-Movies.github.io/banner.png?cache"></center>
 
 #### https://API-Movies.github.io
 

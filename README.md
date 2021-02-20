@@ -1,10 +1,11 @@
 # API Movies
 
-<center><img src="https://API-Movies.github.io/banner.png?cache"></center>
+<center><a href="https://API-Movies.github.io"><img src="https://API-Movies.github.io/banner.png?cache"></a></center>
 
 #### https://API-Movies.github.io
+#### https://API-Movies.netlify.app
 
-Movie/tv statistics:
+The movie/tv API statistics:
 
 - https://github.com/API-Movies/collaps
 - https://github.com/API-Movies/alloha

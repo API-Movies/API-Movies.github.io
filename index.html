@@ -254,7 +254,7 @@
 
 						['collaps', 'alloha', 'hdvb', 'videocdn', 'kodik', 'bazon'].forEach(function(v) {
 							if (!dataPoints[t][s][v]) return;
-							$.getJSON("https://api-movies.github.io/" + v + "/statistics.json", function(data) {
+							$.getJSON("https://api-movies.github.io/" + v + "/statistics.json?" + Math.floor(Math.random() * 9e9), function(data) {
 								for (var i = 0; i < data.length; i++) {
 									if (t === 'all') {
 										dataPoints[t][s][v].push({

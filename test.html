@@ -1,0 +1,279 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@500&display=swap" rel="stylesheet"> 
+    <style>body{font-family: 'Comfortaa', cursive;}.chart{height: 300px; width: 100%; border-radius: 10px; border: 5px #32373a solid; background: #32373a}</style>
+    <title>Поиск ошибок в видео-базах</title>
+    <script>
+			window.onload = function () {
+				var el = document.getElementById('run');
+				el.addEventListener('click', run, false);
+
+				function run() {
+					var e = document.getElementById('api');
+					var status = document.getElementById('status');
+					var status_block = document.getElementById('status-block');
+					var error_block = document.getElementById('error-block');
+					error_block.style.display = 'none';
+					error_block.innerHTML = '';
+					var api = e.value;
+					if (!api) return;
+					var errors = 0;
+					var kinopoisk_ids = [];
+					var imdb_ids = [];
+					var tmdb_ids = [];
+					var world_art_ids = [];
+					var shikimori_ids = [];
+					status_block.style.display = 'block';
+					$.getJSON("https://api-movies.github.io/" + api + "/index.json?" + Math.floor(Math.random() * 9e9), function(data) {
+						if (data.length) {
+							data.forEach(function(d, i) {
+								setTimeout(function() {
+									$.getJSON(d + "?" + Math.floor(Math.random() * 9e9), function(res) {
+										if (res) {
+											var results = [];
+											if (api === 'collaps') {
+												results = res['results'];
+											} else if (api === 'alloha') {
+												results = res['data'];
+											} else if (api === 'hdvb') {
+												results = res['items'];
+											} else if (api === 'videocdn') {
+												results = res['data'];
+											} else if (api === 'kodik') {
+												results = res['results'];
+											} else if (api === 'bazon') {
+												results = res['results'];
+											}
+											results.forEach(function(r) {
+												var error = document.createElement('div');
+												error.innerHTML = '';
+
+												var kinopoisk_id = '';
+												var imdb_id = '';
+												var tmdb_id = '';
+												var world_art_id = '';
+												var shikimori_id = '';
+
+												var true_kinopoisk_id = '';
+												var true_imdb_id = '';
+												var true_tmdb_id = '';
+												var true_world_art_id = '';
+												var true_shikimori_id = '';
+
+												if (api === 'collaps') {
+													kinopoisk_id = (r['kinopoisk_id'] || '') + '';
+													imdb_id = (r['imdb_id'] || '') + '';
+													world_art_id = (r['world_art_id'] || '') + '';
+												} else if (api === 'alloha') {
+													kinopoisk_id = (r['id_kp'] || '') + '';
+													imdb_id = (r['id_imdb'] || '') + '';
+													tmdb_id = (r['id_tmdb'] || '') + '';
+													world_art_id = (r['id_world_art'] || '') + '';
+												} else if (api === 'hdvb') {
+													kinopoisk_id = (r['kinopoisk_id'] || '') + '';
+													world_art_id = (r['world_art_id'] || '') + '';
+												} else if (api === 'videocdn') {
+													kinopoisk_id = (r['kp_id'] || '') + '';
+													imdb_id = (r['imdb_id'] || '') + '';
+													world_art_id = (r['world_art_id'] || '') + '';
+												} else if (api === 'kodik') {
+													kinopoisk_id = (r['kinopoisk_id'] || '') + '';
+													imdb_id = (r['imdb_id'] || '') + '';
+													shikimori_id = (r['shikimori_id'] || '') + '';
+												} else if (api === 'bazon') {
+													kinopoisk_id = (r['kinopoisk_id'] || '') + '';
+												}
+
+												if (kinopoisk_id) {
+													true_kinopoisk_id = parseInt(kinopoisk_id.replace(/[^0-9]/ig, '')) + '';
+													if (kinopoisk_id !== true_kinopoisk_id) {
+														error.innerHTML += '<div>ID <strong style="color:#ff7e00">КиноПоиск</strong> имеет лишние символы: «' + kinopoisk_id + '»</div>';
+													}
+													if (api !== 'kodik' && api !== 'hdvb' && api !== 'bazon' && kinopoisk_ids.indexOf(true_kinopoisk_id) + 1) {
+														error.innerHTML += '<div>ID <strong style="color:#ff7e00">КиноПоиск</strong> имеет дубль: «' + kinopoisk_id + '»</div>';
+													} 
+													if (parseInt(true_kinopoisk_id) < 298 || parseInt(true_kinopoisk_id) > 9999999) {
+														error.innerHTML += '<div>ID <strong style="color:#ff7e00">КиноПоиск</strong> некорректный: «' + kinopoisk_id + '»</div>';
+													}
+												}
+
+												if (imdb_id) {
+													true_imdb_id = imdb_id.replace(/[^t0-9]/ig, '');
+													if (imdb_id !== true_imdb_id) {
+														error.innerHTML += '<div>ID <strong style="color:#dfc523">IMDb</strong> имеет лишние символы: «' + imdb_id + '»</div>';
+													}
+													if (api !== 'kodik' && api !== 'hdvb' && api !== 'bazon' && imdb_ids.indexOf(true_imdb_id) + 1) {
+														error.innerHTML += '<div>ID <strong style="color:#dfc523">IMDb</strong> имеет дубль: «' + imdb_id + '»</div>';
+													}
+													if (parseInt(true_imdb_id.replace(/[^0-9]/ig, '')) <= 0 || parseInt(true_imdb_id.replace(/[^0-9]/ig, '')) > 99999999) {
+														error.innerHTML += '<div>ID <strong style="color:#dfc523">IMDb</strong> некорректный: «' + imdb_id + '»</div>';
+													}
+												}
+
+												if (tmdb_id) {
+													true_tmdb_id = parseInt(tmdb_id.replace(/[^0-9]/ig, '')) + '';
+													if (tmdb_id !== true_tmdb_id) {
+														error.innerHTML += '<div>ID <strong style="color:#15b6da">TMDb</strong> имеет лишние символы: «' + tmdb_id + '»</div>';
+													}
+													if (api !== 'kodik' && api !== 'hdvb' && api !== 'bazon' && tmdb_ids.indexOf(true_tmdb_id) + 1) {
+														error.innerHTML += '<div>ID <strong style="color:#15b6da">TMDb</strong> имеет дубль: «' + tmdb_id + '»</div>';
+													}
+													if (parseInt(true_tmdb_id) <= 0 || parseInt(true_tmdb_id) > 9999999) {
+														error.innerHTML += '<div>ID <strong style="color:#15b6da">TMDb</strong> некорректный: «' + tmdb_id + '»</div>';
+													}
+												}
+
+												if (world_art_id) {
+													true_world_art_id = parseInt(world_art_id.replace(/[^0-9]/ig, '')) + '';
+													if (world_art_id !== true_world_art_id) {
+														error.innerHTML += '<div>ID <strong style="color:#a22722">World-Art</strong> имеет лишние символы: «' + world_art_id + '»</div>';
+													}
+													if (api !== 'kodik' && api !== 'hdvb' && api !== 'bazon' && world_art_ids.indexOf(true_world_art_id) + 1) {
+														error.innerHTML += '<div>ID <strong style="color:#a22722">World-Art</strong> имеет дубль: «' + world_art_id + '»</div>';
+													}
+													if (parseInt(true_world_art_id) <= 0 || parseInt(true_world_art_id) > 9999999) {
+														error.innerHTML += '<div>ID <strong style="color:#a22722">World-Art</strong> некорректный: «' + world_art_id + '»</div>';
+													}
+												}
+
+												if (shikimori_id) {
+													true_shikimori_id = parseInt(shikimori_id.replace(/[^0-9]/ig, '')) + '';
+													if (shikimori_id !== true_shikimori_id) {
+														error.innerHTML += '<div>ID <strong style="color:#e8ebef">Shikimori</strong> имеет лишние символы: «' + shikimori_id + '»</div>';
+													}
+													if (api !== 'kodik' && api !== 'hdvb' && api !== 'bazon' && shikimori_ids.indexOf(true_shikimori_id) + 1) {
+														error.innerHTML += '<div>ID <strong style="color:#e8ebef">Shikimori</strong> имеет дубль: «' + shikimori_id + '»</div>';
+													}
+													if (parseInt(true_shikimori_id) <= 0 || parseInt(true_shikimori_id) > 9999999) {
+														error.innerHTML += '<div>ID <strong style="color:#e8ebef">Shikimori</strong> некорректный: «' + shikimori_id + '»</div>';
+													}
+												}
+
+												var ids = [kinopoisk_id, imdb_id, tmdb_id, world_art_id, shikimori_id];
+
+												var uniq = ids
+												  .filter(Boolean)
+												  .map(function(id) {
+												    return {
+												      count: 1,
+												      id: id
+												    };
+												  })
+												  .reduce(function(a, b) {
+												    a[b.id] = (a[b.id] || 0) + b.count;
+												    return a;
+												  }, {});
+
+												var duplicates = Object.keys(uniq).filter(function(a) { return uniq[a] > 1; });
+
+												if (duplicates && duplicates.length) {
+													error.innerHTML += '<div>ID одинаковые: «' + duplicates[0] + '»</div>';
+												}
+
+												if (error.innerHTML) {
+													error_block.style.display = 'block';
+													error_block.appendChild(error);
+													errors++;
+												} else {
+													if (true_kinopoisk_id) {
+														kinopoisk_ids.push(true_kinopoisk_id);
+													}
+													if (true_imdb_id) {
+														imdb_ids.push(true_imdb_id);
+													}
+													if (true_tmdb_id) {
+														tmdb_ids.push(true_tmdb_id);
+													}
+													if (true_world_art_id) {
+														world_art_ids.push(true_world_art_id);
+													}
+													if (true_shikimori_id) {
+														shikimori_ids.push(true_shikimori_id);
+													}
+													status.innerHTML = 
+														[(kinopoisk_ids.length ? ' <strong style="color:#ff7e00">КиноПоиск</strong> ' + kinopoisk_ids.length : ''),
+														(imdb_ids.length ? ' <strong style="color:#dfc523">IMDb</strong> ' + imdb_ids.length : ''), 
+														(tmdb_ids.length ? ' <strong style="color:#15b6da">TMDb</strong> ' + tmdb_ids.length : ''),
+														(world_art_ids.length ? ' <strong style="color:#a22722">World-Art</strong> ' + world_art_ids.length : ''),
+														(shikimori_ids.length ? ' <strong style="color:#e8ebef">Shikimori</strong> ' + shikimori_ids.length : '')].filter(Boolean).join('<br>');
+												}
+											});
+											if ((data.length - 1) === i) {
+												status_block.style.display = 'none';
+												var div_done = document.createElement('div');
+												div_done.innerHTML = '<div class="alert alert-danger" style="color:#fff;background-color:#2c1819;border-color:#770303;' + (errors ? '' : 'margin-bottom:0;') + '">' + 
+														[(kinopoisk_ids.length ? '<strong style="color:#ff7e00">КиноПоиск</strong> ' + kinopoisk_ids.length : ''),
+														(imdb_ids.length ? '<strong style="color:#dfc523">IMDb</strong> ' + imdb_ids.length : ''), 
+														(tmdb_ids.length ? '<strong style="color:#15b6da">TMDb</strong> ' + tmdb_ids.length : ''),
+														(world_art_ids.length ? '<strong style="color:#a22722">World-Art</strong> ' + world_art_ids.length : ''),
+														(shikimori_ids.length ? '<strong style="color:#e8ebef">Shikimori</strong> ' + shikimori_ids.length : ''),
+														(errors ? '<br><strong style="color:#fff">Найдено:</strong> ' + errors + ' ошибок' : '<br><strong style="color:#07fc67">Ошибок не найдено!</strong>')].filter(Boolean).join('<br>') + 
+														'</div>';
+												var error_block_done = document.getElementById('error-block');
+												error_block_done.style.display = 'block';
+												error_block_done.insertBefore(div_done, error_block_done.firstChild);
+											}
+										}
+									});
+								},i*1000);
+							});
+						}
+					});
+				}
+				if (window.location.hash) {
+					var hash = window.location.hash.substring(1);
+					var el_api = document.getElementById('api');
+					var len;
+					for (var ii = 0, len = el_api.length; ii < len; ii++){
+					    if (el_api[ii].value === hash) 
+					     el_api.options[ii].selected = true;
+					}
+					run();
+				}
+			}
+		</script>
+  </head>
+	<body class="bg-dark text-white">
+		<style>#forkongithub a{width:100%;display:inline-block;background:#32373a;color:#fff;text-decoration:none;font-family:'Comfortaa',cursive;text-align:center;font-weight:bold;padding:5px 40px;font-size:1rem;line-height:2rem;position:relative;transition:0.5s;}#forkongithub a:hover{background:#212529;color:#666;}#forkongithub a::before,#forkongithub a::after{content:"";width:100%;display:block;position:absolute;top:1px;left:0;height:1px;background:#666;}#forkongithub a::after{bottom:1px;top:auto;}@media screen and (min-width:800px){#forkongithub{box-sizing:content-box;position:fixed;display:block;top:0;right:0;width:200px;overflow:hidden;height:200px;z-index:9999;}#forkongithub a{box-sizing:content-box;width:200px;position:absolute;top:60px;right:-60px;transform:rotate(45deg);-webkit-transform:rotate(45deg);-ms-transform:rotate(45deg);-moz-transform:rotate(45deg);-o-transform:rotate(45deg);box-shadow:1px 1px 10px rgba(0,0,0,0.4);}}</style>
+		<span id="forkongithub"><a href="https://github.com/API-Movies/API-Movies.github.io">Fork me on GitHub</a></span>
+		<div class="container text-white">
+			<div class="row justify-content-md-center text-white">
+				<div class="col text-white">
+					<h1 class="col text-white text-center my-5">API Movies<br><small style="font-size: 16px">Поиск ошибок в видео-базах</small></h1>
+					<div class="row">
+						<div class="col-12 my-3">
+							<div class="input-group bg-dark text-white">
+							  <select class="form-select bg-dark text-white" id="api" style="border:1px #6c757d solid;border-right: 0">
+							    <option selected>Выбрать...</option>
+							    <option value="collaps">collaps</option>
+							    <option value="alloha">alloha</option>
+							    <option value="hdvb">hdvb</option>
+							    <option value="videocdn">videocdn</option>
+							    <option value="kodik">kodik</option>
+							    <option value="bazon">bazon</option>
+							  </select>
+							  <a href="javascript:void(0)" class="btn btn-outline-secondary" id="run">Запустить</a>
+							</div>
+						</div>
+						<div class="col-md-12 my-3" id="status-block" style="display: none">
+							<div class="d-flex align-items-center text-white">
+							  <strong id="status">Loading...</strong>
+							  <div class="spinner-border ms-auto text-info" role="status" aria-hidden="true"></div>
+							</div>
+						</div>
+						<div class="col-md-12 my-3 alert alert-danger" id="error-block" style="display: none; color: #ff3636;background-color: #352526;border-color: #842029;">
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"></script>
+		<script src="https://canvasjs.com/assets/script/jquery-1.11.1.min.js"></script>
+		<script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+	</body>
+</html>

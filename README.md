@@ -1,11 +1,16 @@
 # API Movies
 
-<a href="https://API-Movies.github.io"><img src="https://API-Movies.github.io/banner.png?cache"></a>
+<a href="https://API-Movies.github.io"><img src="https://API-Movies.github.io/banner.png"></a>
 
-#### https://API-Movies.github.io
-#### https://API-Movies.netlify.app
+### The movie/tv statistics in graphs:
 
-The movie/tv API statistics:
+- https://API-Movies.github.io
+
+### Finding inconsistencies in the database:
+
+- https://API-Movies.github.io/test.html
+
+### The movie/tv API lists:
 
 - https://github.com/API-Movies/collaps
 - https://github.com/API-Movies/alloha

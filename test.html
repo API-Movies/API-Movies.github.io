@@ -10,6 +10,7 @@
     <title>Поиск ошибок в видео-базах</title>
     <script>
 			window.onload = function () {
+				var git_host = 'api-movies.github.io';
 				var el = document.getElementById('run');
 				el.addEventListener('click', run, false);
 
@@ -32,30 +33,30 @@
 					var kinopoisk_imdb = {};
 					status_block.style.display = 'block';
 					status.innerHTML = 'Download imdb_kinopoisk.json (alloha)';
-					$.getJSON("https://api-movies.github.io/alloha/imdb_kinopoisk.json?" + Math.floor(Math.random() * 9e9), function(alloha_imdb_kinopoisk) {
+					$.getJSON("https://" + git_host + "/alloha/imdb_kinopoisk.json?" + Math.floor(Math.random() * 9e9), function(alloha_imdb_kinopoisk) {
 						imdb_kinopoisk['alloha'] = alloha_imdb_kinopoisk;
 						status.innerHTML = 'Download kinopoisk_imdb.json (alloha)';
-						$.getJSON("https://api-movies.github.io/alloha/kinopoisk_imdb.json?" + Math.floor(Math.random() * 9e9), function(alloha_kinopoisk_imdb) {
+						$.getJSON("https://" + git_host + "/alloha/kinopoisk_imdb.json?" + Math.floor(Math.random() * 9e9), function(alloha_kinopoisk_imdb) {
 							kinopoisk_imdb['alloha'] = alloha_kinopoisk_imdb;
 							status.innerHTML = 'Download imdb_kinopoisk.json (collaps)';
-							$.getJSON("https://api-movies.github.io/collaps/imdb_kinopoisk.json?" + Math.floor(Math.random() * 9e9), function(collaps_imdb_kinopoisk) {
+							$.getJSON("https://" + git_host + "/collaps/imdb_kinopoisk.json?" + Math.floor(Math.random() * 9e9), function(collaps_imdb_kinopoisk) {
 								imdb_kinopoisk['collaps'] = collaps_imdb_kinopoisk;
 								status.innerHTML = 'Download kinopoisk_imdb.json (collaps)';
-								$.getJSON("https://api-movies.github.io/collaps/kinopoisk_imdb.json?" + Math.floor(Math.random() * 9e9), function(collaps_kinopoisk_imdb) {
+								$.getJSON("https://" + git_host + "/collaps/kinopoisk_imdb.json?" + Math.floor(Math.random() * 9e9), function(collaps_kinopoisk_imdb) {
 									kinopoisk_imdb['collaps'] = collaps_kinopoisk_imdb;
 									status.innerHTML = 'Download imdb_kinopoisk.json (kodik)';
-									$.getJSON("https://api-movies.github.io/kodik/imdb_kinopoisk.json?" + Math.floor(Math.random() * 9e9), function(kodik_imdb_kinopoisk) {
+									$.getJSON("https://" + git_host + "/kodik/imdb_kinopoisk.json?" + Math.floor(Math.random() * 9e9), function(kodik_imdb_kinopoisk) {
 										imdb_kinopoisk['kodik'] = kodik_imdb_kinopoisk;
 										status.innerHTML = 'Download kinopoisk_imdb.json (kodik)';
-										$.getJSON("https://api-movies.github.io/kodik/kinopoisk_imdb.json?" + Math.floor(Math.random() * 9e9), function(kodik_kinopoisk_imdb) {
+										$.getJSON("https://" + git_host + "/kodik/kinopoisk_imdb.json?" + Math.floor(Math.random() * 9e9), function(kodik_kinopoisk_imdb) {
 											kinopoisk_imdb['kodik'] = kodik_kinopoisk_imdb;
 											status.innerHTML = 'Download imdb_kinopoisk.json (videocdn)';
-											$.getJSON("https://api-movies.github.io/videocdn/imdb_kinopoisk.json?" + Math.floor(Math.random() * 9e9), function(videocdn_imdb_kinopoisk) {
+											$.getJSON("https://" + git_host + "/videocdn/imdb_kinopoisk.json?" + Math.floor(Math.random() * 9e9), function(videocdn_imdb_kinopoisk) {
 												imdb_kinopoisk['videocdn'] = videocdn_imdb_kinopoisk;
 												status.innerHTML = 'Download kinopoisk_imdb.json (videocdn)';
-												$.getJSON("https://api-movies.github.io/videocdn/kinopoisk_imdb.json?" + Math.floor(Math.random() * 9e9), function(videocdn_kinopoisk_imdb) {
+												$.getJSON("https://" + git_host + "/videocdn/kinopoisk_imdb.json?" + Math.floor(Math.random() * 9e9), function(videocdn_kinopoisk_imdb) {
 													kinopoisk_imdb['videocdn'] = videocdn_kinopoisk_imdb;
-													$.getJSON("https://api-movies.github.io/" + api + "/index.json?" + Math.floor(Math.random() * 9e9), function(data) {
+													$.getJSON("https://" + git_host + "/" + api + "/index.json?" + Math.floor(Math.random() * 9e9), function(data) {
 														if (data.length) {
 															data.forEach(function(d, i) {
 																setTimeout(function() {

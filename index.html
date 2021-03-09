@@ -268,7 +268,7 @@
 
 						['collaps', 'alloha', 'hdvb', 'videocdn', 'kodik', 'bazon'].forEach(function(v) {
 							if (!dataPoints[t][s][v]) return;
-							$.getJSON("https://api-movies.github.io/" + v + "/statistics.json?" + Math.floor(Math.random() * 9e9), function(data) {
+							$.getJSON("https://raw.githubusercontent.com/API-Movies/" + v + "/main/statistics.json?" + Math.floor(Math.random() * 9e9), function(data) {
 								for (var i = 0; i < data.length; i++) {
 									if (t === 'all') {
 										dataPoints[t][s][v].push({
@@ -330,7 +330,7 @@
 					tv_imdb_ids: "Уникальных сериалов (ID IMDb)"
 				}
 
-				$.getJSON("https://api-movies.github.io/unique.json?" + Math.floor(Math.random() * 9e9), function(data) {
+				$.getJSON("https://raw.githubusercontent.com/API-Movies/API-Movies.github.io/main/unique.json?" + Math.floor(Math.random() * 9e9), function(data) {
 					['movie_kinopoisk_ids', 'tv_kinopoisk_ids', 'movie_imdb_ids', 'tv_imdb_ids'].forEach(function(f) {
 						unique[f] = new CanvasJS.Chart("unique-" + f, {
 							theme: "dark2",

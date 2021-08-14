@@ -5073,5 +5073,34 @@
       "bazon_movie_imdb_ids": 0,
       "bazon_tv_imdb_ids": 0
     }
+  },
+  {
+    "date": 1628899200,
+    "unique": {
+      "collaps_movie_kinopoisk_ids": 2179,
+      "collaps_tv_kinopoisk_ids": 802,
+      "collaps_movie_imdb_ids": 4128,
+      "collaps_tv_imdb_ids": 955,
+      "alloha_movie_kinopoisk_ids": 1349,
+      "alloha_tv_kinopoisk_ids": 821,
+      "alloha_movie_imdb_ids": 2193,
+      "alloha_tv_imdb_ids": 1167,
+      "hdvb_movie_kinopoisk_ids": 1609,
+      "hdvb_tv_kinopoisk_ids": 314,
+      "hdvb_movie_imdb_ids": 0,
+      "hdvb_tv_imdb_ids": 0,
+      "videocdn_movie_kinopoisk_ids": 5366,
+      "videocdn_tv_kinopoisk_ids": 1831,
+      "videocdn_movie_imdb_ids": 9975,
+      "videocdn_tv_imdb_ids": 1916,
+      "kodik_movie_kinopoisk_ids": 2275,
+      "kodik_tv_kinopoisk_ids": 2414,
+      "kodik_movie_imdb_ids": 2644,
+      "kodik_tv_imdb_ids": 2679,
+      "bazon_movie_kinopoisk_ids": 1346,
+      "bazon_tv_kinopoisk_ids": 285,
+      "bazon_movie_imdb_ids": 0,
+      "bazon_tv_imdb_ids": 0
+    }
   }
 ]
